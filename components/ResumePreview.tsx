@@ -1,8 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
-let html2pdf: any = null;
+import { useState } from "react";
 
 interface ResumePreviewProps {
   html: string;
@@ -12,14 +10,8 @@ interface ResumePreviewProps {
 export default function ResumePreview({ html, jobTitle }: ResumePreviewProps) {
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    // Load html2pdf only on client side
-    import("html2pdf.js").then((module) => {
-      html2pdf = module.default;
-    });
-  }, []);
-
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
+    const html2pdf = (await import("html2pdf.js")).default;
     const element = document.getElementById("resume-preview");
     if (!element) return;
 
