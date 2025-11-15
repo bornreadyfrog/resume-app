@@ -1,14 +1,18 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import * as pdfjsLib from "pdfjs-dist";
 import ResumePreview from "@/components/ResumePreview";
 import ResumeTabs from "@/components/ResumeTabs";
 
-// Set up PDF.js worker
-// Prefer serving the worker locally so the browser can always fetch it from our app.
-// Use the module worker that ships with pdfjs-dist (served from public/).
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+let pdfjsLib: any = null;
+
+// Initialize PDF.js on client side
+if (typeof window !== "undefined") {
+  import("pdfjs-dist").then((module) => {
+    pdfjsLib = module;
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+  });
+}
 
 interface TailoredResume {
   id: string;
@@ -49,6 +53,13 @@ export default function Home() {
 
   // Extract text from PDF
   const extractPdfText = async (file: File): Promise<string> => {
+    // Wait for pdfjs to load if not already loaded
+    if (!pdfjsLib) {
+      const module = await import("pdfjs-dist");
+      pdfjsLib = module;
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+    }
+
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
