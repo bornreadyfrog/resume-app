@@ -28,32 +28,41 @@ export default function ResumeTabs({ history, onLoadResume }: ResumeTabsProps) {
   };
 
   return (
-    <div className="space-y-2">
-      {history.map((item) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {history.map((item, index) => (
         <div
           key={item.id}
-          className="border border-slate-200 rounded-lg overflow-hidden"
+          className="border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition bg-white"
         >
           <button
             onClick={() => {
               setActiveTab(activeTab === item.id ? null : item.id);
               onLoadResume(item);
             }}
-            className="w-full px-4 py-3 text-left hover:bg-slate-50 flex justify-between items-center transition"
+            className="w-full px-5 py-4 text-left hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 flex justify-between items-center transition"
           >
-            <div>
-              <p className="font-semibold text-slate-900">{item.jobTitle}</p>
-              <p className="text-sm text-slate-500">{formatDate(item.timestamp)}</p>
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="inline-block w-6 h-6 bg-gradient-to-br from-indigo-600 to-purple-600 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                  {index + 1}
+                </span>
+                <p className="font-semibold text-slate-900 truncate">{item.jobTitle || "Untitled Resume"}</p>
+              </div>
+              <p className="text-xs text-slate-500">📅 {formatDate(item.timestamp)}</p>
             </div>
-            <span className="text-slate-400">
+            <span className="text-indigo-600 ml-2 text-xl">
               {activeTab === item.id ? "▼" : "▶"}
             </span>
           </button>
           {activeTab === item.id && (
-            <div className="bg-slate-50 px-4 py-3 border-t border-slate-200 text-sm text-slate-600">
-              <p>
-                Click "Load Resume" in the main view to see the full preview.
-              </p>
+            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 px-5 py-4 border-t border-slate-200 text-sm text-slate-600">
+              <p className="mb-3">✓ Resume loaded and ready to view</p>
+              <button
+                onClick={() => onLoadResume(item)}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:shadow-md transition text-sm"
+              >
+                View in Preview
+              </button>
             </div>
           )}
         </div>

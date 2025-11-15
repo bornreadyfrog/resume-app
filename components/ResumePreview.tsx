@@ -33,34 +33,34 @@ export default function ResumePreview({ html, jobTitle }: ResumePreviewProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-full border border-slate-200">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 flex justify-between items-center">
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-6 py-5 flex justify-between items-center">
         <div>
-          <h2 className="text-xl font-bold text-white">Tailored Resume</h2>
-          <p className="text-blue-100 text-sm truncate max-w-sm">{jobTitle}</p>
+          <h2 className="text-xl font-bold text-white">✨ Tailored Resume</h2>
+          <p className="text-indigo-100 text-sm truncate max-w-sm mt-1">{jobTitle}</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <button
             onClick={handleDownloadPDF}
-            className="bg-white text-blue-600 hover:bg-blue-50 font-semibold py-2 px-4 rounded transition"
+            className="bg-white text-indigo-600 hover:bg-indigo-50 font-semibold py-2 px-4 rounded-lg transition shadow-md hover:shadow-lg"
           >
-            Download PDF
+            📥 Download PDF
           </button>
           <button
             onClick={handleCopyHTML}
-            className="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded transition"
+            className="bg-indigo-500 hover:bg-indigo-400 text-white font-semibold py-2 px-4 rounded-lg transition shadow-md hover:shadow-lg"
           >
-            {copied ? "Copied!" : "Copy HTML"}
+            {copied ? "✓ Copied!" : "📋 Copy HTML"}
           </button>
         </div>
       </div>
 
       {/* Preview */}
-      <div className="flex-1 overflow-auto bg-slate-50 p-2">
+      <div className="flex-1 overflow-auto bg-gradient-to-br from-slate-50 to-slate-100 p-4">
         <div
           id="resume-preview"
-          className="bg-white p-4 shadow-sm mx-auto max-w-2xl"
+          className="bg-white p-6 shadow-sm mx-auto max-w-2xl rounded-lg border border-slate-200"
           dangerouslySetInnerHTML={{ __html: html }}
           style={{
             fontFamily: "Calibri, Arial, sans-serif",
